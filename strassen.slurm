@@ -8,4 +8,4 @@
 
 cd $SLURM_SUBMIT_DIR
 
-./strassen 100
+./strassen 1000

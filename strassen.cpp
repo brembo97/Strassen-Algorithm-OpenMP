@@ -83,45 +83,76 @@ void strassen(int **A, int **B, int **C, int N){
 	    }
 	}
 
-#pragma omp parallel
+    #pragma omp parallel firstprivate(aResult, bResult)
     {
         //Calculando matrices intermedias
-        add(a11, a22, aResult, new_size);
-        add(b11, b22, bResult, new_size);
-        multiply(aResult,bResult,m1, new_size);
+        #pragma omp single
+        {
+            #pragma omp task
+            {
+                add(a11, a22, aResult, new_size);
+                add(b11, b22, bResult, new_size);
+                multiply(aResult,bResult,m1, new_size);
+            }
+            #pragma omp task
+            {
+                add(a21, a22,aResult, new_size);
+                multiply(aResult,b11,m2, new_size);
+            }
+            #pragma omp task
+            {
+                sub(b12, b22, bResult, new_size);
+                multiply(a11, bResult, m3, new_size);
+            }
+            #pragma omp task
+            {
+                sub(b21, b11, bResult, new_size);
+                multiply(a22, bResult, m4, new_size);
+            }
+            #pragma omp task
+            {
+                add(a11, a12, aResult, new_size);
+                multiply(aResult, b22, m5, new_size);
+            }
+            #pragma omp task
+            {
+                sub(a21, a11, aResult, new_size);
+                add(b11, b12, bResult, new_size);
+                multiply(aResult, bResult, m6, new_size);
+            }
+            #pragma omp task
+            {
+                sub(a12, a22, aResult, new_size);
+                add(b21, b22, bResult, new_size);
+                multiply(aResult, bResult, m7, new_size);
+            }
+        };
 
-        add(a21, a22,aResult, new_size);
-        multiply(aResult,b11,m2, new_size);
-
-        sub(b12, b22, bResult, new_size);
-        multiply(a11, bResult, m3, new_size);
-
-        sub(b21, b11, bResult, new_size);
-        multiply(a22, bResult, m4, new_size);
-
-        add(a11, a12, aResult, new_size);
-        multiply(aResult, b22, m5, new_size);
-
-        sub(a21, a11, aResult, new_size);
-        add(b11, b12, bResult, new_size);
-        multiply(aResult, bResult, m6, new_size);
-
-        sub(a12, a22, aResult, new_size);
-        add(b21, b22, bResult, new_size);
-        multiply(aResult, bResult, m7, new_size);
-
+        #pragma omp taskwait
         //Calculando submatrices de C
-
-        add(m3, m5, c12, new_size);
-        add(m2, m4, c21, new_size);
-
-        add(m1, m4, aResult, new_size);
-        add(aResult, m7, bResult, new_size);
-        sub(bResult, m5, c11, new_size);
-
-        sub(m1, m2, aResult, new_size);
-        add(aResult, m3, bResult, new_size);
-        add(bResult, m6, c22, new_size);
+        #pragma omp single
+        {
+            #pragma omp task
+            {
+                add(m3, m5, c12, new_size);
+            }
+            #pragma omp task
+            {
+                add(m2, m4, c21, new_size);
+            }
+            #pragma omp task
+            {
+                add(m1, m4, aResult, new_size);
+                add(aResult, m7, bResult, new_size);
+                sub(bResult, m5, c11, new_size);
+            }
+            #pragma omp task
+            {
+                sub(m1, m2, aResult, new_size);
+                add(aResult, m3, bResult, new_size);
+                add(bResult, m6, c22, new_size);
+            }
+        };
     }
 
     //Agrupar las submatrices de C
@@ -134,8 +165,6 @@ void strassen(int **A, int **B, int **C, int N){
         }
     }
 }
-
-
 
 
 // Main method
@@ -183,7 +212,7 @@ int main(int argc, char* argv[]) {
     strassen(A, B, C, N);
 
 	// testing the results is correct
-	if(argc == 4 || argc == 2){
+	if(argc == 4){
 		printMatrix(C,N);
 	}
 
