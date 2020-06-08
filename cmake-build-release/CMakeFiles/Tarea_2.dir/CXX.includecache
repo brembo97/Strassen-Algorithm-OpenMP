@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/brembo/CLionProjects/Comp_Paralela/Tarea 2/Tarea_2/io.h
+iostream
+-
+fstream
+-
+
+/home/brembo/CLionProjects/Comp_Paralela/Tarea 2/Tarea_2/strassen.cpp
+cstdio
+-
+cstdlib
+-
+omp.h
+-
+timer.h
+/home/brembo/CLionProjects/Comp_Paralela/Tarea 2/Tarea_2/timer.h
+vector
+-
+io.h
+/home/brembo/CLionProjects/Comp_Paralela/Tarea 2/Tarea_2/io.h
+
+/home/brembo/CLionProjects/Comp_Paralela/Tarea 2/Tarea_2/timer.h
+sys/time.h
+-
+

@@ -1,0 +1,3 @@
+/home/brembo/CLionProjects/Comp_Paralela/Tarea 2/Tarea_2/cmake-build-release/CMakeFiles/rebuild_cache.dir
+/home/brembo/CLionProjects/Comp_Paralela/Tarea 2/Tarea_2/cmake-build-release/CMakeFiles/edit_cache.dir
+/home/brembo/CLionProjects/Comp_Paralela/Tarea 2/Tarea_2/cmake-build-release/CMakeFiles/Tarea_2.dir

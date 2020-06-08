@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -DNDEBUG   CMakeFiles/Tarea_2.dir/strassen.cpp.o  -o Tarea_2 
